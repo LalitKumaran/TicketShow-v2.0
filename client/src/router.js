@@ -2,25 +2,41 @@ import { createRouter, createWebHistory } from "vue-router";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import CreateAdmin from "./components/admin/CreateAdmin";
-import CreateShow from "./components/admin/CreateShow";
-import CreateVenue from "./components/admin/CreateVenue";
-import UpdateShow from "./components/admin/UpdateShow";
-import UpdateVenue from "./components/admin/UpdateVenue";
-import DeleteShow from "./components/admin/DeleteShow";
-import DeleteVenue from "./components/admin/DeleteVenue";
-import Shows from "./components/user/Shows";
-import Venues from "./components/user/Venues";
-import SelectedShow from "./components/user/SelectedShow";
-import SelectedVenue from "./components/user/SelectedVenue";
+import CreateMovie from "./components/admin/CreateMovie";
+import CreateTheatre from "./components/admin/CreateTheatre";
+import UpdateMovie from "./components/admin/UpdateMovie";
+import UpdateTheatre from "./components/admin/UpdateTheatre";
+import DeleteMovie from "./components/admin/DeleteMovie";
+import DeleteTheatre from "./components/admin/DeleteTheatre";
+import Movies from "./components/user/Movies";
+import Theatres from "./components/user/Theatres";
+import SelectedMovie from "./components/user/SelectedMovie";
+import SelectedTheatre from "./components/user/SelectedTheatre";
 import SelectedSlot from "./components/user/SelectedSlot";
 import Booking from "./components/user/Booking";
 import Profile from "./components/user/Profile";
+
+const isUserAlive = () => {
+  return localStorage.getItem("user") !== null;
+};
+
+const isAdminAlive = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  return user && user.role === "admin";
+};
 
 const routes = [
   {
     path: "/",
     name: "log-in",
     component: Login,
+    beforeEnter: (to, from, next) => {
+      if (isUserAlive()) {
+        next("/theatres");
+      } else {
+        next();
+      }
+    },
   },
   {
     path: "/register",
@@ -31,71 +47,191 @@ const routes = [
     path: "/create-admin",
     name: "create-admin",
     component: CreateAdmin,
+    beforeEnter: (to, from, next) => {
+      if (isAdminAlive()) {
+        next();
+      } else if (isUserAlive()) {
+        console.log("Admin access only");
+      } else {
+        next("/");
+      }
+    },
   },
   {
-    path: "/add-show",
-    name: "create-show",
-    component: CreateShow,
+    path: "/add-movie",
+    name: "create-movie",
+    component: CreateMovie,
+    beforeEnter: (to, from, next) => {
+      if (isAdminAlive()) {
+        next();
+      } else if (isUserAlive()) {
+        console.log("Admin access only");
+      } else {
+        next("/");
+      }
+    },
   },
   {
-    path: "/add-venue",
-    name: "create-venue",
-    component: CreateVenue,
+    path: "/add-theatre",
+    name: "create-theatre",
+    component: CreateTheatre,
+    beforeEnter: (to, from, next) => {
+      if (isAdminAlive()) {
+        next();
+      } else if (isUserAlive()) {
+        console.log("Admin access only");
+      } else {
+        next("/");
+      }
+    },
   },
   {
-    path: "/update-show",
-    name: "update-show",
-    component: UpdateShow,
+    path: "/update-movie",
+    name: "update-movie",
+    component: UpdateMovie,
+    beforeEnter: (to, from, next) => {
+      if (isAdminAlive()) {
+        next();
+      } else if (isUserAlive()) {
+        console.log("Admin access only");
+      } else {
+        next("/");
+      }
+    },
   },
   {
-    path: "/update-venue",
-    name: "update-venue",
-    component: UpdateVenue,
+    path: "/update-theatre",
+    name: "update-theatre",
+    component: UpdateTheatre,
+    beforeEnter: (to, from, next) => {
+      if (isAdminAlive()) {
+        next();
+      } else if (isUserAlive()) {
+        console.log("Admin access only");
+      } else {
+        next("/");
+      }
+    },
   },
   {
-    path: "/delete-show",
-    name: "Delete-show",
-    component: DeleteShow,
+    path: "/delete-movie",
+    name: "Delete-Movie",
+    component: DeleteMovie,
+    beforeEnter: (to, from, next) => {
+      if (isAdminAlive()) {
+        next();
+      } else if (isUserAlive()) {
+        console.log("Admin access only");
+      } else {
+        next("/");
+      }
+    },
   },
   {
-    path: "/delete-venue",
-    name: "delete-venue",
-    component: DeleteVenue,
+    path: "/delete-theatre",
+    name: "delete-theatre",
+    component: DeleteTheatre,
+    beforeEnter: (to, from, next) => {
+      if (isAdminAlive()) {
+        next();
+      } else if (isUserAlive()) {
+        console.log("Admin access only");
+      } else {
+        next("/");
+      }
+    },
   },
   {
-    path: "/shows",
-    name: "shows-page",
-    component: Shows,
+    path: "/movies",
+    name: "movies-page",
+    component: Movies,
+    beforeEnter: (to, from, next) => {
+      if (isUserAlive()) {
+        next();
+      } else {
+        next("/");
+      }
+    },
   },
   {
-    path: "/venues",
-    name: "venues-page",
-    component: Venues,
+    path: "/theatres",
+    name: "theatres-page",
+    component: Theatres,
+    beforeEnter: (to, from, next) => {
+      if (isUserAlive()) {
+        next();
+      } else {
+        next("/");
+      }
+    },
   },
   {
-    path: "/selected-show",
-    name: "selected-show",
-    component: SelectedShow,
+    path: "/selected-Movie",
+    name: "selected-Movie",
+    component: SelectedMovie,
+    beforeEnter: (to, from, next) => {
+      if (isUserAlive()) {
+        next();
+      } else {
+        next("/");
+      }
+    },
   },
   {
     path: "/selected-slot",
     name: "selected-slot",
     component: SelectedSlot,
+    beforeEnter: (to, from, next) => {
+      if (isUserAlive()) {
+        next();
+      } else {
+        next("/");
+      }
+    },
   },
   {
-    path: "/selected-venue",
-    name: "selected-venue",
-    component: SelectedVenue,
+    path: "/selected-theatre",
+    name: "selected-theatre",
+    component: SelectedTheatre,
+    beforeEnter: (to, from, next) => {
+      if (isUserAlive()) {
+        next();
+      } else {
+        next("/");
+      }
+    },
   },
   {
     path: "/booking",
     name: "booking-page",
     component: Booking,
+    beforeEnter: (to, from, next) => {
+      if (isUserAlive()) {
+        next();
+      } else {
+        next("/");
+      }
+    },
   },
   {
     path: "/profile",
     name: "profile-page",
     component: Profile,
+    beforeEnter: (to, from, next) => {
+      if (isUserAlive()) {
+        next();
+      } else {
+        next("/");
+      }
+    },
+  },
+  {
+    path: "/logout",
+    name: "log-out",
+    beforeEnter: (to, from, next) => {
+      localStorage.clear();
+      next("/");
+    },
   },
 ];
 const router = createRouter({

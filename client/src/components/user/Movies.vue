@@ -1,11 +1,15 @@
 <template>
-  <div><h1>Shows</h1></div>
+  <div><Navbar /></div>
 </template>
 <script>
+import Navbar from "../util/Navbar";
 export default {
   name: "shows-page",
   data() {
     return {};
+  },
+  components: {
+    Navbar,
   },
 };
 </script>

@@ -3,23 +3,23 @@
     <Navbar />
     <div class="form-container">
       <div class="form-subcontainer">
-        <h3 class="text-warning">Delete Venue</h3>
-        <form @submit.prevent="deleteVenue">
+        <h3 class="text-warning">Delete Theatre</h3>
+        <form @submit.prevent="deleteTheatre">
           <div class="select-wrapper">
-            <select v-model="selectedVenue" id="venue" name="venue">
+            <select v-model="selectedTheatre" id="theatre" name="theatre">
               <option style="color: #ffc107" value="" selected disabled hidden>
-                Select Venue
+                Select Theatre
               </option>
-              <option style="color: #ffc107" v-if="venues.length == 0" disabled>
-                No Venue Available
+              <option style="color: #ffc107" v-if="theatres.length == 0" disabled>
+                No Theatre Available
               </option>
               <option
                 style="color: black"
-                v-for="venue in venues"
-                :value="venue"
-                :key="venue.venueId"
+                v-for="theatre in theatres"
+                :value="theatre"
+                :key="theatre.theatreId"
               >
-                {{ venue.venueName }}
+                {{ theatre.theatreName }}
               </option>
             </select>
           </div>
@@ -33,21 +33,21 @@
 import Navbar from "../util/Navbar";
 import axios from "axios";
 export default {
-  name: "delete-venue",
+  name: "delete-Theatre",
   data() {
     return {
-      venueId: "",
+      theatreId: "",
       shows: [],
-      venues: [],
+      theatres: [],
       slots: [],
-      selectedVenue: "",
+      selectedTheatre: "",
     };
   },
   components: {
     Navbar,
   },
   methods: {
-    deleteVenue() {
+    deleteTheatre() {
       this.user = JSON.parse(localStorage.getItem("user"));
       const accessToken = this.user.token;
       const headers = {
@@ -57,7 +57,7 @@ export default {
         .delete("", { headers })
         .then((res) => {
           setTimeout(() => {
-            this.$router.push("/venues");
+            this.$router.push("/theatres");
           }, 3000);
           console.log(res);
         })
@@ -67,7 +67,7 @@ export default {
     },
   },
   created() {
-    this.venueId = this.$route.params.venueId;
+    this.theatreId = this.$route.params.theatreId;
   },
 };
 </script>

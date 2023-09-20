@@ -4,7 +4,7 @@
 <script>
 import Navbar from "../util/Navbar";
 export default {
-  name: "profile-page",
+  name: "theatres-page",
   data() {
     return {};
   },

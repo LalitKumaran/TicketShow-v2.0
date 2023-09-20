@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar />
+    <bootstrap-toast ref="toast"></bootstrap-toast>
     <div class="form-container">
       <div class="form-subcontainer">
         <h3 class="text-warning">Login</h3>
@@ -34,32 +35,43 @@
 </template>
 <script>
 import Navbar from "../util/Navbar";
+import BootstrapToast from "../util/BootstrapToast";
 import axios from "axios";
-
 export default {
   name: "log-in",
   data() {
     return {
+      user: {},
       email: "",
       password: "",
     };
   },
   components: {
     Navbar,
+    BootstrapToast,
   },
   methods: {
     login() {
       axios
-        .post("", { email: this.email, password: this.password })
+        .post("http://127.0.0.1:5000/api/login", {
+          email: this.email,
+          password: this.password,
+        })
         .then((res) => {
+          this.user = JSON.parse(res.data.user);
+          if (res.status == 200) {
+          this.$refs.toast.showCustomToast(res.data.msg, "success");
           localStorage.setItem("user", res.data.user);
-          setTimeout(() => {
-            this.$router.push("/venues");
-          }, 2000);
-          console.log(res);
+            setTimeout(() => {
+              this.$router.push("/theatres");
+            }, 2000);
+          } else {
+            this.$refs.toast.showCustomToast(res.data.msg, "warning");
+          }
         })
         .catch((err) => {
           console.log(err);
+          this.$refs.toast.showCustomToast('Error in Authentication', "warning");
         });
     },
   },

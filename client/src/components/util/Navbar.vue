@@ -32,14 +32,14 @@
           v-if="isAdminAlive"
           class="nav-item nav-link"
           id="create-show"
-          to="/create-show"
+          to="/add-show"
           >Create Show</router-link
         >
         <router-link
           v-if="isAdminAlive"
           class="nav-item nav-link"
           id="create-venue"
-          to="/create-venue"
+          to="/add-venue"
           >Create Venue</router-link
         >
         <router-link
@@ -86,13 +86,11 @@ export default {
   name: "nav-bar",
   computed: {
     isUserAlive() {
-      // return localStorage.getItem("user") !== null;
-      return false;
+      return localStorage.getItem("user") !== null;
     },
     isAdminAlive() {
-      // const user = JSON.parse(localStorage.getItem("user"));
-      // return user && user.role === "admin";
-      return false;
+      const user = JSON.parse(localStorage.getItem("user"));
+      return user && user.role === "admin";
     },
   },
 };

@@ -3,14 +3,14 @@
     <Navbar />
     <div class="form-container">
       <div class="form-subcontainer">
-        <h3 class="text-warning">Update Venue</h3>
-        <form @submit.prevent="updateVenue">
+        <h3 class="text-warning">Create Theatre</h3>
+        <form @submit.prevent="addTheatre">
           <input
             type="text"
             v-model="name"
-            placeholder="Venue Name"
-            name="venuename"
-            id="venuename"
+            placeholder="Theatre Name"
+            name="theatrename"
+            id="theatrename"
           />
 
           <input
@@ -37,19 +37,17 @@
             id="price"
           />
 
-          <input id="image-label" placeholder="Image" disabled />
+          <input id="image-label" placeholder="Image" disabled/>
           <input
             type="file"
-            placeholder="Image"
             @change="getImage"
             accept="image/*"
             name="image"
             id="image"
           />
-
           <!-- <img :src="image" v-if="image" /> -->
 
-          <button class="btn btn-outline-warning" type="submit">Update</button>
+          <button class="btn btn-outline-warning" type="submit">Create</button>
         </form>
       </div>
     </div>
@@ -59,35 +57,32 @@
 import Navbar from "../util/Navbar";
 import axios from "axios";
 export default {
-  name: "update-venue",
+  name: "create-Theatre",
   data() {
     return {
-      user: {},
+      user: "",
       name: "",
       location: "",
       capacity: "",
       price: "",
       image: "",
-      venueId: "",
-      selectedVenue: {},
     };
   },
   components: {
     Navbar,
   },
   methods: {
-    updateVenue() {
+    addTheatre() {
       this.user = JSON.parse(localStorage.getItem("user"));
       const accessToken = this.user.token;
       const headers = {
         Authorization: `Bearer ${accessToken}`,
       };
       axios
-        .put(
+        .post(
           "",
           {
-            venueId: this.vid,
-            venueName: this.name,
+            theatreName: this.name,
             location: this.location,
             capacity: this.capacity,
             price: this.price,
@@ -96,10 +91,10 @@ export default {
           { headers }
         )
         .then((res) => {
-          console.log(res);
           setTimeout(() => {
-            this.$router.push("/venues");
+            this.$router.push("/Theatres");
           }, 3000);
+          console.log(res);
         })
         .catch((err) => {
           console.log(err);
@@ -114,9 +109,26 @@ export default {
       reader.readAsDataURL(file);
     },
   },
-  created() {
-    this.venueId = this.$route.params.venueId;
-  },
 };
 </script>
-<style></style>
+<style>
+input::file-selector-button {
+  color: #ffc107;
+  background-color: #212529;
+  border: 1px solid #ffc107;
+  width: 100px;
+  border-radius: 5px;
+}
+input::file-selector-button:hover {
+  background-color: #ffc107;
+  color: #212529;
+}
+input[type="file"] {
+  padding: 10px;
+}
+#image-label{
+  padding-bottom: 0;
+  width: 300px;
+  border: none
+}
+</style>

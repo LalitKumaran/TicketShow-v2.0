@@ -3,14 +3,14 @@
     <Navbar />
     <div class="form-container">
       <div class="form-subcontainer">
-        <h3 class="text-warning">Update Show</h3>
-        <form @submit.prevent="UpdateShow">
+        <h3 class="text-warning">Update Movie</h3>
+        <form @submit.prevent="updateMovie">
           <input
-            v-model="showName"
+            v-model="movieName"
             type="text"
-            placeholder="Show name"
-            name="showname"
-            id="showname"
+            placeholder="Movie name"
+            name="moviename"
+            id="moviename"
             required
           />
 
@@ -75,21 +75,21 @@
 import Navbar from "../util/Navbar";
 import axios from "axios";
 export default {
-  name: "update-show",
+  name: "update-movie",
   data() {
     return {
       venues: [],
       slots: [],
-      shows: [],
-      showName: "",
+      movies: [],
+      movieName: "",
       tag: "",
       rating: "",
       lang: "",
       cast: "",
       duration: "",
       poster: "",
-      selectedShow: {},
-      showId: "",
+      selectedMovie: {},
+      movieId: "",
     };
   },
   components: { Navbar },
@@ -102,7 +102,7 @@ export default {
       };
       reader.readAsDataURL(file);
     },
-    updateShow() {
+    updateMovie() {
       this.user = JSON.parse(localStorage.getItem("user"));
       const accessToken = this.user.token;
       const headers = {
@@ -112,8 +112,8 @@ export default {
         .put(
           "",
           {
-            showId: this.showId,
-            showName: this.showName,
+            movieId: this.movieId,
+            movieName: this.movieName,
             tag: this.tag,
             rating: this.rating,
             lang: this.lang,
@@ -126,7 +126,7 @@ export default {
         .then((res) => {
           console.log(res);
           setTimeout(() => {
-            this.$router.push("/venues");
+            this.$router.push("/theatres");
           }, 3000);
         })
         .catch((err) => {
@@ -135,7 +135,7 @@ export default {
     },
   },
   created() {
-    this.showId = this.$route.params.showId;
+    this.movieId = this.$route.params.movieId;
   },
 };
 </script>

@@ -3,42 +3,42 @@
     <Navbar />
     <div class="form-container">
       <div class="form-subcontainer">
-        <h3 class="text-warning">Add Show</h3>
-        <form @submit.prevent="addShow">
+        <h3 class="text-warning">Add Movie</h3>
+        <form @submit.prevent="addMovie">
           <div class="select-wrapper">
             <select
-              @change="getSelectedShow"
-              id="show"
-              v-model="selectedShow"
-              name="show"
+              @change="getSelectedMovie"
+              id="Movie"
+              v-model="selectedMovie"
+              name="Movie"
             >
               <option style="color: #ffc107" value="" selected disabled hidden>
-                Select Show
+                Select Movie
               </option>
-              <option style="color: #ffc107" :value="'new_show'">
-                New Show
+              <option style="color: #ffc107" :value="'new_Movie'">
+                New Movie
               </option>
-              <option style="color: #ffc107" v-if="shows.length == 0" disabled>
-                No Show Available
+              <option style="color: #ffc107" v-if="movies.length == 0" disabled>
+                No Movie Available
               </option>
               <option
                 style="color: #ffc107"
-                v-for="show in shows"
-                :value="show"
-                :key="show.showId"
+                v-for="movie in movies"
+                :value="movie"
+                :key="movie.movieId"
               >
-                {{ show.showName }}
+                {{ movie.movieName }}
               </option>
             </select>
           </div>
 
-          <div v-if="selectedShow == 'new_show'">
+          <div v-if="selectedMovie == 'new_movie'">
             <input
-              v-model="showName"
+              v-model="movieName"
               type="text"
-              placeholder="Show name"
-              name="showname"
-              id="showname"
+              placeholder="Movie name"
+              name="moviename"
+              id="moviename"
               required
             />
 
@@ -95,20 +95,20 @@
           </div>
 
           <div class="select-wrapper">
-            <select id="venue" name="venue" required>
+            <select id="theatre" name="theatre" required>
               <option style="color: #ffc107" value="" selected disabled hidden>
-                Select Venue
+                Select Theatre
               </option>
-              <option style="color: #ffc107" v-if="venues.length == 0" disabled>
-                No Venue Available
+              <option style="color: #ffc107" v-if="theatres.length == 0" disabled>
+                No theatre Available
               </option>
               <option
                 style="color: #ffc107"
-                v-for="venue in venues"
-                :value="venue"
-                :key="venue.venueId"
+                v-for="theatre in theatres"
+                :value="theatre"
+                :key="theatre.theatreId"
               >
-                {{ venue.venueName }}
+                {{ theatre.theatreName }}
               </option>
             </select>
           </div>
@@ -142,22 +142,22 @@
 import Navbar from "../util/Navbar";
 import axios from "axios";
 export default {
-  name: "create-show",
+  name: "create-Movie",
   data() {
     return {
-      venues: [],
+      theatres: [],
       slots: [],
-      shows: [],
-      showId: "",
-      showName: "",
+      Movies: [],
+      MovieId: "",
+      MovieName: "",
       tag: "",
       rating: "",
       language: "",
       cast: "",
       duration: "",
       poster: "",
-      selectedVenue: {},
-      selectedShow: "",
+      selectedTheatre: {},
+      selectedMovie: "",
       date: "",
       time: "",
       seats: "",
@@ -177,7 +177,7 @@ export default {
       };
       reader.readAsDataURL(file);
     },
-    addShow() {
+    addMovie() {
       this.user = JSON.parse(localStorage.getItem("user"));
       const accessToken = this.user.token;
       const headers = {
@@ -187,48 +187,48 @@ export default {
         .post(
           "",
           {
-            showId: this.showId,
-            showName: this.showName,
+            movieId: this.movieId,
+            movieName: this.movieName,
             tag: this.tag,
             rating: this.rating,
             language: this.language,
             cast: this.cast,
             duration: this.duration,
             poster: this.poster,
-            venue: this.selectedVenue.venueId,
+            theatre: this.selectedTheatre.theatreId,
             time: this.time,
             date: this.date,
-            availableSeats: this.selectedVenue.capacity,
+            availableSeats: this.selectedTheatre.capacity,
           },
           { headers }
         )
         .then((res) => {
           console.log(res);
           setTimeout(() => {
-            this.$router.push("/venues");
+            this.$router.push("/theatres");
           }, 3000);
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    getSelectedShow() {
-      if (this.selectedShow != "new_show" && this.selectedShow != "") {
-        for (const show of this.shows) {
-          if (show.showId == this.selectedShow.showId) {
-            this.showId = show.showId;
-            this.showName = show.showName;
-            this.tag = show.tag;
-            this.rating = show.rating;
-            this.lang = show.lang;
-            this.cast = show.cast;
-            this.duration = show.duration;
-            this.poster = show.poster;
+    getSelectedMovie() {
+      if (this.selectedMovie != "new_movie" && this.selectedMovie != "") {
+        for (const movie of this.movies) {
+          if (movie.movieId == this.selectedMovie.movieId) {
+            this.movieId = movie.movieId;
+            this.movieName = movie.movieName;
+            this.tag = movie.tag;
+            this.rating = movie.rating;
+            this.lang = movie.lang;
+            this.cast = movie.cast;
+            this.duration = movie.duration;
+            this.poster = movie.poster;
           }
         }
       } else {
-        this.showId = "";
-        this.showName = "";
+        this.movieId = "";
+        this.movieName = "";
         this.tag = "";
         this.rating = "";
         this.lang = "";
@@ -241,7 +241,7 @@ export default {
       this.dayAvailability();
       const newSlotStartTime = new Date(`${this.date}T${this.time}`);
       for (const slot of this.slots) {
-        if (this.selectedVenue.venueId == slot.venueId) {
+        if (this.selectedTheatre.theatreId == slot.theatreId) {
           const slotStartTime = new Date(`${slot.date}T${slot.time}`);
           const slotDuration = parseInt(slot.duration) * 60 * 1000;
           const slotEndTime = new Date(slotStartTime.getTime() + slotDuration);
@@ -259,7 +259,7 @@ export default {
           ) {
             this.time = null;
             this.isSlotAvailable = false;
-            this.slotErrorMessage = `Slot ${this.date} ${slotStartTime}-${slotEndTime} at ${this.selectedVenue.venueName} Booked`;
+            this.slotErrorMessage = `Slot ${this.date} ${slotStartTime}-${slotEndTime} at ${this.selectedTheatre.theatreName} Booked`;
             break;
           }
         }
@@ -271,7 +271,7 @@ export default {
 
       for (const slot of this.slots) {
         if (
-          this.selectedVenue.venueId == slot.venueId &&
+          this.selectedTheatre.theatreId == slot.theatreId &&
           this.date == slot.date
         ) {
           const slotStartTime = new Date(`${slot.date}T${slot.time}`);
@@ -294,7 +294,7 @@ export default {
         if (availableTimePerDay < newSlotDuration) {
           this.date = null;
           this.isSlotAvailable = false;
-          this.slotErrorMessage = `No Slot available at ${this.selectedVenue.venueName} on ${this.date}`;
+          this.slotErrorMessage = `No Slot available at ${this.selectedTheatre.theatreName} on ${this.date}`;
         }
       }
     },

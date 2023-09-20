@@ -6,5 +6,5 @@ import router from './router';
 // window.$ = window.jQuery = jQuery;
 
 import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap/dist/js/bootstrap.bundle.js'
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 createApp(App).use(router).mount('#app');

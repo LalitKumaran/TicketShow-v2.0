@@ -1,9 +1,9 @@
 <template>
-  <div><h1>Selected Venue</h1></div>
+  <div><h1>Selected Movie</h1></div>
 </template>
 <script>
 export default {
-  name: "selected-venue",
+  name: "selected-movie",
   data() {
     return {};
   },

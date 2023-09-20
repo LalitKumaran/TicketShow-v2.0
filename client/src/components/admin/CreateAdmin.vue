@@ -76,7 +76,7 @@ export default {
         })
         .then((res) => {
           setTimeout(() => {
-            this.$router.push("/venues");
+            this.$router.push("/theatres");
           }, 2000);
           console.log(res);
         })

@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar />
+    <bootstrap-toast ref="toast"></bootstrap-toast>
     <div class="form-container">
       <div class="form-subcontainer">
         <h3 class="text-warning">Register</h3>
@@ -53,6 +54,7 @@
 </template>
 <script>
 import Navbar from "../util/Navbar";
+import BootstrapToast from "../util/BootstrapToast";
 import axios from "axios";
 export default {
   name: "register-user",
@@ -67,11 +69,12 @@ export default {
   },
   components: {
     Navbar,
+    BootstrapToast,
   },
   methods: {
     register() {
       axios
-        .post("", {
+        .post("http://127.0.0.1:5000/api/register", {
           username: this.username,
           email: this.email,
           password: this.password,
@@ -80,13 +83,18 @@ export default {
           role: "user",
         })
         .then((res) => {
-          setTimeout(() => {
-            this.$router.push("/");
-          }, 2000);
-          console.log(res);
+          if (res.status == 200) {
+            this.$refs.toast.showCustomToast(res.data.msg, "success");
+            setTimeout(() => {
+              this.$router.push("/");
+            }, 2000);
+          } else {
+            this.$refs.toast.showCustomToast(res.data.msg, "warning");
+          }
         })
         .catch((err) => {
           console.log(err);
+          this.$refs.toast.showCustomToast("Error in Registration", "warning");
         });
     },
   },

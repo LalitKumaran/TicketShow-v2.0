@@ -3,23 +3,23 @@
     <Navbar />
     <div class="form-container">
       <div class="form-subcontainer">
-        <h3 class="text-warning">Delete Show</h3>
-        <form @submit.prevent="deleteShow">
+        <h3 class="text-warning">Delete Movie</h3>
+        <form @submit.prevent="deleteMovie">
           <div class="select-wrapper">
-            <select v-model="selectedShow" id="show" name="show">
+            <select v-model="selectedMovie" id="Movie" name="Movie">
               <option style="color: #ffc107" value="" selected disabled hidden>
-                Select Show
+                Select Movie
               </option>
-              <option style="color: #ffc107" v-if="shows.length == 0" disabled>
-                No Show Available
+              <option style="color: #ffc107" v-if="movies.length == 0" disabled>
+                No Movie Available
               </option>
               <option
                 style="color: #ffc107"
-                v-for="show in shows"
-                :value="show"
-                :key="show.showId"
+                v-for="movie in movies"
+                :value="movie"
+                :key="movie.movieId"
               >
-                {{ show.showName }}
+                {{ movie.movieName }}
               </option>
             </select>
           </div>
@@ -33,19 +33,19 @@
 import Navbar from "../util/Navbar";
 import axios from "axios";
 export default {
-  name: "delete-show",
+  name: "delete-Movie",
   data() {
     return {
-      showId: "",
-      shows: [],
+      movieId: "",
+      movies: [],
       venues: [],
       slots: [],
-      selectedShow: "",
+      selectedMovie: "",
     };
   },
   components: { Navbar },
   methods: {
-    deleteShow() {
+    deleteMovie() {
       this.user = JSON.parse(localStorage.getItem("user"));
       const accessToken = this.user.token;
       const headers = {
@@ -58,7 +58,7 @@ export default {
         .then((res) => {
           console.log(res);
           setTimeout(() => {
-            this.$router.push("/venues");
+            this.$router.push("/theatres");
           }, 3000);
         })
         .catch((err) => {
@@ -67,7 +67,7 @@ export default {
     },
   },
   created() {
-    this.showId = this.$route.params.showId;
+    this.movieId = this.$route.params.movieId;
   },
 };
 </script>
