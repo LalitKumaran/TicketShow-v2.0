@@ -8,14 +8,14 @@
           <div class="select-wrapper">
             <select
               @change="getSelectedMovie"
-              id="Movie"
+              id="movie"
               v-model="selectedMovie"
               name="Movie"
             >
               <option style="color: #ffc107" value="" selected disabled hidden>
                 Select Movie
               </option>
-              <option style="color: #ffc107" :value="'new_Movie'">
+              <option style="color: #ffc107" :value="'new_movie'">
                 New Movie
               </option>
               <option style="color: #ffc107" v-if="movies.length == 0" disabled>
@@ -147,9 +147,9 @@ export default {
     return {
       theatres: [],
       slots: [],
-      Movies: [],
-      MovieId: "",
-      MovieName: "",
+      movies: [],
+      movieId: "",
+      movieName: "",
       tag: "",
       rating: "",
       language: "",

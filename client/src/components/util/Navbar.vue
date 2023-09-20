@@ -17,30 +17,30 @@
         <router-link
           v-if="isUserAlive"
           class="nav-text nav-item nav-link"
-          id="Venue"
-          to="/venues"
-          >Venues</router-link
+          id="theatre"
+          to="/theatres"
+          >Theatres</router-link
         >
         <router-link
           v-if="isUserAlive"
           class="nav-item nav-link"
-          id="shows"
-          to="/shows"
-          >Shows</router-link
+          id="movies"
+          to="/movies"
+          >Movies</router-link
         >
         <router-link
           v-if="isAdminAlive"
           class="nav-item nav-link"
-          id="create-show"
-          to="/add-show"
-          >Create Show</router-link
+          id="create-movie"
+          to="/add-movie"
+          >Create movie</router-link
         >
         <router-link
           v-if="isAdminAlive"
           class="nav-item nav-link"
-          id="create-venue"
-          to="/add-venue"
-          >Create Venue</router-link
+          id="create-theatre"
+          to="/add-theatre"
+          >Create theatre</router-link
         >
         <router-link
           v-if="isAdminAlive"
