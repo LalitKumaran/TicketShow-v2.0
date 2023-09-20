@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <Navbar /> -->
     <router-view />
   </div>
 </template>
@@ -9,15 +8,13 @@
 // import Navbar from "../src/components/util/Navbar.vue";
 export default {
   name: "App",
-  // components: {
-  //   Navbar,
-  // },
 };
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Avenir, Helvetica, Arial, sans-serif; */
+  font-family: 'Courier New', Courier, monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

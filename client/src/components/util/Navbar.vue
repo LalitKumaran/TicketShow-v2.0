@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <!-- <img class="logo my-1 mx-2" :src="require('../../assets/logo.png')" /> -->
+    <img class="logo my-1 mx-2" :src="require('../../assets/logo.png')" />
     <button
       class="navbar-toggler mx-4"
       type="button"
@@ -33,21 +33,21 @@
           class="nav-item nav-link"
           id="create-movie"
           to="/add-movie"
-          >Create movie</router-link
+          >CreateMovie</router-link
         >
         <router-link
           v-if="isAdminAlive"
           class="nav-item nav-link"
           id="create-theatre"
           to="/add-theatre"
-          >Create theatre</router-link
+          >CreateTheatre</router-link
         >
         <router-link
           v-if="isAdminAlive"
           class="nav-item nav-link"
           id="create-admin"
           to="/create-admin"
-          >Create Admin</router-link
+          >CreateAdmin</router-link
         >
         <router-link
           v-if="isUserAlive"
@@ -96,6 +96,19 @@ export default {
 };
 </script>
 <style scoped>
+.logo {
+  width: 200px;
+  height: 40px;
+  padding-right: 20px;
+}
+@media screen and (max-width:768px){
+  .logo {
+  left: 5px;
+  width: 150px;
+  height: 30px;
+  padding-right: 20px;
+}
+}
 .nav-item {
   color: #ffc107;
   font-size: 18px;

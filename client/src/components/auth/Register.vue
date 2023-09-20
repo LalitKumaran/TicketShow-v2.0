@@ -94,7 +94,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
-          this.$refs.toast.showCustomToast("Error in Registration", "warning");
+          this.$refs.toast.showCustomToast("Error in Registration", "danger");
         });
     },
   },

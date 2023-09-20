@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar />
+    <bootstrap-toast ref="toast"></bootstrap-toast>
     <div class="form-container">
       <div class="form-subcontainer">
         <h3 class="text-warning">Create Theatre</h3>
@@ -56,6 +57,7 @@
 <script>
 import Navbar from "../util/Navbar";
 import axios from "axios";
+import BootstrapToast from "../util/BootstrapToast.vue";
 export default {
   name: "create-Theatre",
   data() {
@@ -70,6 +72,7 @@ export default {
   },
   components: {
     Navbar,
+    BootstrapToast
   },
   methods: {
     addTheatre() {
@@ -80,7 +83,7 @@ export default {
       };
       axios
         .post(
-          "",
+          "http://127.0.0.1:5000/api/venue",
           {
             theatreName: this.name,
             location: this.location,
@@ -91,13 +94,15 @@ export default {
           { headers }
         )
         .then((res) => {
+          this.$refs.toast.showCustomToast(res.data.msg, "success");
           setTimeout(() => {
-            this.$router.push("/Theatres");
+            this.$router.push("/theatres");
           }, 3000);
           console.log(res);
         })
         .catch((err) => {
           console.log(err);
+          this.$refs.toast.showCustomToast("Server Error", "danger");
         });
     },
     getImage(event) {

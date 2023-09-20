@@ -86,7 +86,7 @@ const routes = [
     },
   },
   {
-    path: "/update-movie",
+    path: "/update-movie/:movieId",
     name: "update-movie",
     component: UpdateMovie,
     beforeEnter: (to, from, next) => {
@@ -100,7 +100,7 @@ const routes = [
     },
   },
   {
-    path: "/update-theatre",
+    path: "/update-theatre/:theatreId",
     name: "update-theatre",
     component: UpdateTheatre,
     beforeEnter: (to, from, next) => {
@@ -114,7 +114,7 @@ const routes = [
     },
   },
   {
-    path: "/delete-movie",
+    path: "/delete-movie/:movieId",
     name: "Delete-Movie",
     component: DeleteMovie,
     beforeEnter: (to, from, next) => {
@@ -128,7 +128,7 @@ const routes = [
     },
   },
   {
-    path: "/delete-theatre",
+    path: "/delete-theatre/:theatreId",
     name: "delete-theatre",
     component: DeleteTheatre,
     beforeEnter: (to, from, next) => {
@@ -166,7 +166,7 @@ const routes = [
     },
   },
   {
-    path: "/selected-Movie",
+    path: "/selected-Movie/:movieId",
     name: "selected-Movie",
     component: SelectedMovie,
     beforeEnter: (to, from, next) => {
@@ -178,7 +178,7 @@ const routes = [
     },
   },
   {
-    path: "/selected-slot",
+    path: "/selected-slot/:slotId",
     name: "selected-slot",
     component: SelectedSlot,
     beforeEnter: (to, from, next) => {
@@ -190,7 +190,7 @@ const routes = [
     },
   },
   {
-    path: "/selected-theatre",
+    path: "/selected-theatre/:theatreId",
     name: "selected-theatre",
     component: SelectedTheatre,
     beforeEnter: (to, from, next) => {
@@ -202,7 +202,7 @@ const routes = [
     },
   },
   {
-    path: "/booking",
+    path: "/booking/:slotId/:seatCount",
     name: "booking-page",
     component: Booking,
     beforeEnter: (to, from, next) => {

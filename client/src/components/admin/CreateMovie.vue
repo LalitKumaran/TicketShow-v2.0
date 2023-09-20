@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar />
+    <bootstrap-toast ref="toast"></bootstrap-toast>
     <div class="form-container">
       <div class="form-subcontainer">
         <h3 class="text-warning">Add Movie</h3>
@@ -25,9 +26,9 @@
                 style="color: #ffc107"
                 v-for="movie in movies"
                 :value="movie"
-                :key="movie.movieId"
+                :key="movie.show_id"
               >
-                {{ movie.movieName }}
+                {{ movie.show_name }}
               </option>
             </select>
           </div>
@@ -51,11 +52,11 @@
             />
 
             <input
-              v-model="tag"
+              v-model="genre"
               type="text"
-              placeholder="Tags"
-              name="tag"
-              id="tag"
+              placeholder="Genre"
+              name="genre"
+              id="genre"
             />
 
             <input
@@ -69,7 +70,7 @@
             <input
               v-model="language"
               type="text"
-              placeholder="language"
+              placeholder="Language"
               name="language"
               id="language"
             />
@@ -99,16 +100,20 @@
               <option style="color: #ffc107" value="" selected disabled hidden>
                 Select Theatre
               </option>
-              <option style="color: #ffc107" v-if="theatres.length == 0" disabled>
+              <option
+                style="color: #ffc107"
+                v-if="theatres.length == 0"
+                disabled
+              >
                 No theatre Available
               </option>
               <option
                 style="color: #ffc107"
                 v-for="theatre in theatres"
                 :value="theatre"
-                :key="theatre.theatreId"
+                :key="theatre.venue_id"
               >
-                {{ theatre.theatreName }}
+                {{ theatre.venue_name }}
               </option>
             </select>
           </div>
@@ -121,13 +126,33 @@
             required
           />
 
-          <input
+          <!-- <input
             @change="slotAvailability"
             v-model="time"
             type="time"
             name="time"
             required
-          />
+          /> -->
+
+          <div class="select-wrapper">
+            <select id="slot-time" name="slot-time" required>
+              <option style="color: #ffc107" value="" selected disabled hidden>
+                Select Slot
+              </option>
+              <option
+                style="color: #ffc107"
+                v-if="theatres.length == 0"
+                disabled
+              >
+                No Slots Available
+              </option>
+              <option style="color: #ffc107">Morning-9:00 A.M</option>
+              <option style="color: #ffc107">Noon-12:30 P.M</option>
+              <option style="color: #ffc107">Matinee-4:00 P.M</option>
+              <option style="color: #ffc107">Evening-7:30 P.M</option>
+              <option style="color: #ffc107">Night-11:00 P.M</option>
+            </select>
+          </div>
 
           <p v-if="!isSlotAvailable" class="error-message">
             {{ slotErrorMessage }}
@@ -141,6 +166,7 @@
 <script>
 import Navbar from "../util/Navbar";
 import axios from "axios";
+import BootstrapToast from "../util/BootstrapToast.vue";
 export default {
   name: "create-Movie",
   data() {
@@ -150,7 +176,7 @@ export default {
       movies: [],
       movieId: "",
       movieName: "",
-      tag: "",
+      genre: "",
       rating: "",
       language: "",
       cast: "",
@@ -167,6 +193,7 @@ export default {
   },
   components: {
     Navbar,
+    BootstrapToast
   },
   methods: {
     getPoster(event) {
@@ -189,7 +216,7 @@ export default {
           {
             movieId: this.movieId,
             movieName: this.movieName,
-            tag: this.tag,
+            genre: this.genre,
             rating: this.rating,
             language: this.language,
             cast: this.cast,
@@ -218,7 +245,7 @@ export default {
           if (movie.movieId == this.selectedMovie.movieId) {
             this.movieId = movie.movieId;
             this.movieName = movie.movieName;
-            this.tag = movie.tag;
+            this.genre = movie.genre;
             this.rating = movie.rating;
             this.lang = movie.lang;
             this.cast = movie.cast;
@@ -229,7 +256,7 @@ export default {
       } else {
         this.movieId = "";
         this.movieName = "";
-        this.tag = "";
+        this.genre = "";
         this.rating = "";
         this.lang = "";
         this.cast = "";
@@ -275,7 +302,9 @@ export default {
           this.date == slot.date
         ) {
           const slotStartTime = new Date(`${slot.date}T${slot.time}`);
-          const slotEndTime = new Date(slotStartTime.getTime() + averageDuration);
+          const slotEndTime = new Date(
+            slotStartTime.getTime() + averageDuration
+          );
           const newSlotEndTime = new Date(
             newSlotStartTime.getTime() +
               parseInt(this.duration.match(/\d+/)[0]) * 60 * 1000
@@ -298,6 +327,29 @@ export default {
         }
       }
     },
+  },
+  beforeMount() {
+    this.user = JSON.parse(localStorage.getItem("user"));
+    const accessToken = this.user.token;
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+    axios
+      .get("http://127.0.0.1:5000/api/fetch", { headers })
+      .then((res) => {
+        this.theatres = res.data.venues;
+        this.movies = res.data.shows;
+        this.slots = res.data.slots;
+        if (!res.data.success) {
+          this.$refs.toast.showCustomToast(res.data.msg, "warning");
+          setTimeout(() => {
+            this.$router.push("/logout");
+          }, 3000);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };
 </script>

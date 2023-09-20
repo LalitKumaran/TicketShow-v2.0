@@ -71,7 +71,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
-          this.$refs.toast.showCustomToast('Error in Authentication', "warning");
+          this.$refs.toast.showCustomToast('Error in Authentication', "danger");
         });
     },
   },
@@ -106,5 +106,10 @@ export default {
 }
 body {
   background-image: url("../../assets/bg1.jpg");
+  backdrop-filter: blur(2px);
+  min-height: 100vh;
+}
+*{
+  font-family:inherit
 }
 </style>
