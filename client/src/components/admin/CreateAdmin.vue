@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar />
+    <bootstrap-toast ref="toast"></bootstrap-toast>
     <div class="form-container">
       <div class="form-subcontainer">
         <h3 class="text-warning">Create Admin</h3>
@@ -49,6 +50,7 @@
 <script>
 import Navbar from "../util/Navbar";
 import axios from "axios";
+import BootstrapToast from "../util/BootstrapToast";
 export default {
   name: "create-admin",
   data() {
@@ -62,6 +64,7 @@ export default {
   },
   components: {
     Navbar,
+    BootstrapToast
   },
   methods: {
     register() {

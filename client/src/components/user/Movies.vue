@@ -7,7 +7,7 @@
         class="form-control bg-dark text-light m-1 w-75 border border-warning"
         type="search"
         id="search"
-        v-model="search_value"
+        v-model="searchFilter"
         placeholder="&#128269;  Search by movies, genre, ratings"
         aria-label="Search"
       />
@@ -80,7 +80,7 @@ export default {
     return {
       user: "",
       movies: [],
-      search_value: "",
+      searchFilter: "",
       filteredMovies: [],
     };
   },
@@ -89,7 +89,7 @@ export default {
     BootstrapToast,
   },
   watch: {
-    search_value(newVal) {
+    searchFilter(newVal) {
       if (newVal === "") {
         this.filteredMovies = this.movies;
       } else {

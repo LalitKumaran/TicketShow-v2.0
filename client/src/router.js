@@ -8,6 +8,7 @@ import UpdateMovie from "./components/admin/UpdateMovie";
 import UpdateTheatre from "./components/admin/UpdateTheatre";
 import DeleteMovie from "./components/admin/DeleteMovie";
 import DeleteTheatre from "./components/admin/DeleteTheatre";
+import DeleteSlot from "./components/admin/DeleteSlot";
 import Movies from "./components/user/Movies";
 import Theatres from "./components/user/Theatres";
 import SelectedMovie from "./components/user/SelectedMovie";
@@ -131,6 +132,20 @@ const routes = [
     path: "/delete-theatre/:theatreId",
     name: "delete-theatre",
     component: DeleteTheatre,
+    beforeEnter: (to, from, next) => {
+      if (isAdminAlive()) {
+        next();
+      } else if (isUserAlive()) {
+        console.log("Admin access only");
+      } else {
+        next("/");
+      }
+    },
+  },
+  {
+    path: "/delete-slot/:slotId",
+    name: "delete-slot",
+    component: DeleteSlot,
     beforeEnter: (to, from, next) => {
       if (isAdminAlive()) {
         next();

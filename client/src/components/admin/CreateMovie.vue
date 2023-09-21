@@ -11,7 +11,6 @@
               @change="getSelectedMovie"
               id="movie"
               v-model="selectedMovie"
-              name="Movie"
             >
               <option style="color: #ffc107" value="" selected disabled hidden>
                 Select Movie
@@ -38,7 +37,6 @@
               v-model="movieName"
               type="text"
               placeholder="Movie name"
-              name="moviename"
               id="moviename"
               required
             />
@@ -47,7 +45,6 @@
               v-model="rating"
               type="text"
               placeholder="Rating"
-              name="rating"
               id="rating"
             />
 
@@ -55,7 +52,6 @@
               v-model="genre"
               type="text"
               placeholder="Genre"
-              name="genre"
               id="genre"
             />
 
@@ -63,7 +59,6 @@
               v-model="cast"
               type="text"
               placeholder="Cast"
-              name="cast"
               id="cast"
             />
 
@@ -71,7 +66,6 @@
               v-model="language"
               type="text"
               placeholder="Language"
-              name="language"
               id="language"
             />
 
@@ -79,7 +73,6 @@
               v-model="duration"
               type="text"
               placeholder="Duration"
-              name="duration"
               id="duration"
               required
             />
@@ -88,7 +81,6 @@
             <input
               type="file"
               @change="getPoster"
-              name="poster"
               id="poster"
               accept="image/*"
             />
@@ -96,7 +88,7 @@
           </div>
 
           <div class="select-wrapper">
-            <select id="theatre" name="theatre" required>
+            <select id="theatre" required>
               <option style="color: #ffc107" value="" selected disabled hidden>
                 Select Theatre
               </option>
@@ -122,20 +114,11 @@
             @change="slotAvailability"
             v-model="date"
             type="date"
-            name="date"
             required
           />
 
-          <!-- <input
-            @change="slotAvailability"
-            v-model="time"
-            type="time"
-            name="time"
-            required
-          /> -->
-
           <div class="select-wrapper">
-            <select id="slot-time" name="slot-time" required>
+            <select id="slot-time" @change="slotAvailability" required>
               <option style="color: #ffc107" value="" selected disabled hidden>
                 Select Slot
               </option>
@@ -146,17 +129,17 @@
               >
                 No Slots Available
               </option>
-              <option style="color: #ffc107">Morning-9:00 A.M</option>
-              <option style="color: #ffc107">Noon-12:30 P.M</option>
-              <option style="color: #ffc107">Matinee-4:00 P.M</option>
-              <option style="color: #ffc107">Evening-7:30 P.M</option>
-              <option style="color: #ffc107">Night-11:00 P.M</option>
+              <option style="color: #ffc107" value="9:00">Morning-9:00 A.M</option>
+              <option style="color: #ffc107" value="12:30">Noon-12:30 P.M</option>
+              <option style="color: #ffc107" value="16:00">Matinee-4:00 P.M</option>
+              <option style="color: #ffc107" value="19:30">Evening-7:30 P.M</option>
+              <option style="color: #ffc107" value="23:00">Night-11:00 P.M</option>
             </select>
           </div>
 
-          <p v-if="!isSlotAvailable" class="error-message">
+          <!-- <p v-if="!isSlotAvailable" class="error-message">
             {{ slotErrorMessage }}
-          </p>
+          </p> -->
           <button class="btn btn-outline-warning" type="submit">Add</button>
         </form>
       </div>
@@ -264,69 +247,69 @@ export default {
         this.poster = "";
       }
     },
-    slotAvailability() {
-      this.dayAvailability();
-      const newSlotStartTime = new Date(`${this.date}T${this.time}`);
-      for (const slot of this.slots) {
-        if (this.selectedTheatre.theatreId == slot.theatreId) {
-          const slotStartTime = new Date(`${slot.date}T${slot.time}`);
-          const slotDuration = parseInt(slot.duration) * 60 * 1000;
-          const slotEndTime = new Date(slotStartTime.getTime() + slotDuration);
-          const newSlotEndTime = new Date(
-            newSlotStartTime.getTime() +
-              parseInt(this.duration.match(/\d+/)[0]) * 60 * 1000
-          );
-          this.isSlotAvailable = true;
-          this.slotErrorMessage = "";
-          if (
-            (newSlotStartTime.getTime() < slotStartTime.getTime() &&
-              newSlotEndTime.getTime() > slotStartTime.getTime()) ||
-            (newSlotStartTime.getTime() > slotStartTime.getTime() &&
-              newSlotStartTime.getTime() < slotEndTime.getTime())
-          ) {
-            this.time = null;
-            this.isSlotAvailable = false;
-            this.slotErrorMessage = `Slot ${this.date} ${slotStartTime}-${slotEndTime} at ${this.selectedTheatre.theatreName} Booked`;
-            break;
-          }
-        }
-      }
-    },
-    dayAvailability() {
-      const newSlotStartTime = new Date(`${this.date}T${this.time}`);
-      const averageDuration = 3 * 60 * 60 * 1000; // 3 hours in ms
+    // slotAvailability() {
+    //   this.dayAvailability();
+    //   const newSlotStartTime = new Date(`${this.date}T${this.time}`);
+    //   for (const slot of this.slots) {
+    //     if (this.selectedTheatre.theatreId == slot.theatreId) {
+    //       const slotStartTime = new Date(`${slot.date}T${slot.time}`);
+    //       const slotDuration = parseInt(slot.duration) * 60 * 1000;
+    //       const slotEndTime = new Date(slotStartTime.getTime() + slotDuration);
+    //       const newSlotEndTime = new Date(
+    //         newSlotStartTime.getTime() +
+    //           parseInt(this.duration.match(/\d+/)[0]) * 60 * 1000
+    //       );
+    //       this.isSlotAvailable = true;
+    //       this.slotErrorMessage = "";
+    //       if (
+    //         (newSlotStartTime.getTime() < slotStartTime.getTime() &&
+    //           newSlotEndTime.getTime() > slotStartTime.getTime()) ||
+    //         (newSlotStartTime.getTime() > slotStartTime.getTime() &&
+    //           newSlotStartTime.getTime() < slotEndTime.getTime())
+    //       ) {
+    //         this.time = null;
+    //         this.isSlotAvailable = false;
+    //         this.slotErrorMessage = `Slot ${this.date} ${slotStartTime}-${slotEndTime} at ${this.selectedTheatre.theatreName} Booked`;
+    //         break;
+    //       }
+    //     }
+    //   }
+    // },
+    // dayAvailability() {
+    //   const newSlotStartTime = new Date(`${this.date}T${this.time}`);
+    //   const averageDuration = 3 * 60 * 60 * 1000; // 3 hours in ms
 
-      for (const slot of this.slots) {
-        if (
-          this.selectedTheatre.theatreId == slot.theatreId &&
-          this.date == slot.date
-        ) {
-          const slotStartTime = new Date(`${slot.date}T${slot.time}`);
-          const slotEndTime = new Date(
-            slotStartTime.getTime() + averageDuration
-          );
-          const newSlotEndTime = new Date(
-            newSlotStartTime.getTime() +
-              parseInt(this.duration.match(/\d+/)[0]) * 60 * 1000
-          );
-          var availableTimePerDay = 24 * 60 * 60 * 1000;
-          if (
-            newSlotEndTime.getTime() > slotStartTime.getTime() ||
-            (newSlotStartTime.getTime() > slotStartTime.getTime() &&
-              newSlotStartTime.getTime() < slotEndTime.getTime())
-          ) {
-            availableTimePerDay -= parseInt(slot.duration) * 60 * 1000;
-          }
-        }
-        const newSlotDuration =
-          parseInt(this.duration.match(/\d+/)[0]) * 60 * 1000;
-        if (availableTimePerDay < newSlotDuration) {
-          this.date = null;
-          this.isSlotAvailable = false;
-          this.slotErrorMessage = `No Slot available at ${this.selectedTheatre.theatreName} on ${this.date}`;
-        }
-      }
-    },
+    //   for (const slot of this.slots) {
+    //     if (
+    //       this.selectedTheatre.theatreId == slot.theatreId &&
+    //       this.date == slot.date
+    //     ) {
+    //       const slotStartTime = new Date(`${slot.date}T${slot.time}`);
+    //       const slotEndTime = new Date(
+    //         slotStartTime.getTime() + averageDuration
+    //       );
+    //       const newSlotEndTime = new Date(
+    //         newSlotStartTime.getTime() +
+    //           parseInt(this.duration.match(/\d+/)[0]) * 60 * 1000
+    //       );
+    //       var availableTimePerDay = 24 * 60 * 60 * 1000;
+    //       if (
+    //         newSlotEndTime.getTime() > slotStartTime.getTime() ||
+    //         (newSlotStartTime.getTime() > slotStartTime.getTime() &&
+    //           newSlotStartTime.getTime() < slotEndTime.getTime())
+    //       ) {
+    //         availableTimePerDay -= parseInt(slot.duration) * 60 * 1000;
+    //       }
+    //     }
+    //     const newSlotDuration =
+    //       parseInt(this.duration.match(/\d+/)[0]) * 60 * 1000;
+    //     if (availableTimePerDay < newSlotDuration) {
+    //       this.date = null;
+    //       this.isSlotAvailable = false;
+    //       this.slotErrorMessage = `No Slot available at ${this.selectedTheatre.theatreName} on ${this.date}`;
+    //     }
+    //   }
+    // },
   },
   beforeMount() {
     this.user = JSON.parse(localStorage.getItem("user"));

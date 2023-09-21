@@ -10,7 +10,6 @@
             type="text"
             v-model="name"
             placeholder="Theatre Name"
-            name="theatrename"
             id="theatrename"
           />
 
@@ -18,14 +17,12 @@
             type="text"
             v-model="capacity"
             placeholder="Capacity"
-            name="capacity"
             id="capacity"
           />
           <input
             type="text"
             v-model="location"
             placeholder="Location"
-            name="location"
             id="location"
           />
 
@@ -34,7 +31,6 @@
             v-model="price"
             placeholder="Ticket Price"
             min="0"
-            name="price"
             id="price"
           />
 
@@ -43,7 +39,6 @@
             type="file"
             @change="getImage"
             accept="image/*"
-            name="image"
             id="image"
           />
           <!-- <img :src="image" v-if="image" /> -->
@@ -121,7 +116,7 @@ input::file-selector-button {
   color: #ffc107;
   background-color: #212529;
   border: 1px solid #ffc107;
-  width: 100px;
+  width: 120px;
   border-radius: 5px;
 }
 input::file-selector-button:hover {

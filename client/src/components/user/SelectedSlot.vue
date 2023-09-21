@@ -24,91 +24,96 @@
             :src="'http://127.0.0.1:5000/images/' + selectedMovie.poster"
           />
         </div>
-        <!-- <div class="table-wrapper-scroll-y my-custom-scrollbar"> -->
-        <div
-          class="row justify-content-center p-3 m-2 text-warning border border-warning rounded"
-        >
-          <table class="table table-dark">
-            <tbody>
-              <tr>
-                <th class="text-warning">Rating</th>
-                <td class="text-warning">{{ selectedMovie.rating }}</td>
-              </tr>
-              <tr>
-                <th class="text-warning">Genre</th>
-                <td class="text-warning">{{ selectedMovie.tag }}</td>
-              </tr>
-              <tr>
-                <th class="text-warning">Cast</th>
-                <td class="text-warning">{{ selectedMovie.cast }}</td>
-              </tr>
-              <tr>
-                <th class="text-warning">Language</th>
-                <td class="text-warning">{{ selectedMovie.lang }}</td>
-              </tr>
-              <tr>
-                <th class="text-warning">Duration</th>
-                <td class="text-warning">{{ selectedMovie.duration }}</td>
-              </tr>
-              <tr>
-                <th class="text-warning">Date</th>
-                <td class="text-warning">{{ selectedSlot.date }}</td>
-              </tr>
-              <tr>
-                <th class="text-warning">Time</th>
-                <td class="text-warning">{{ selectedSlot.time }}</td>
-              </tr>
-              <tr>
-                <th class="text-warning">Venue</th>
-                <td class="text-warning">{{ selectedTheatre.venue_name }}</td>
-              </tr>
-              <tr>
-                <th class="text-warning">Location</th>
-                <td class="text-warning">{{ selectedTheatre.location }}</td>
-              </tr>
-              <tr>
-                <th class="text-warning">Seats Available</th>
-                <td class="text-warning">{{ selectedSlot.seats_available }}</td>
-              </tr>
-              <tr>
-                <th class="text-warning">Price</th>
-                <td v-if="selectedMovie.rating < 6.0" class="text-warning">
-                  {{ selectedTheatre.price }}
-                  <i class="text-success">
-                    Offer: {{ selectedTheatre.price - 20 }}</i
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+          <div
+            class="row justify-content-center p-3 m-2 text-warning border border-warning rounded"
+          >
+            <table class="table table-dark">
+              <tbody>
+                <tr>
+                  <th class="text-warning">Rating</th>
+                  <td class="text-warning">{{ selectedMovie.rating }}</td>
+                </tr>
+                <tr>
+                  <th class="text-warning">Genre</th>
+                  <td class="text-warning">{{ selectedMovie.tag }}</td>
+                </tr>
+                <tr>
+                  <th class="text-warning">Cast</th>
+                  <td class="text-warning">{{ selectedMovie.cast }}</td>
+                </tr>
+                <tr>
+                  <th class="text-warning">Language</th>
+                  <td class="text-warning">{{ selectedMovie.lang }}</td>
+                </tr>
+                <tr>
+                  <th class="text-warning">Duration</th>
+                  <td class="text-warning">{{ selectedMovie.duration }}</td>
+                </tr>
+                <tr>
+                  <th class="text-warning">Date</th>
+                  <td class="text-warning">{{ selectedSlot.date }}</td>
+                </tr>
+                <tr>
+                  <th class="text-warning">Time</th>
+                  <td class="text-warning">{{ selectedSlot.time }}</td>
+                </tr>
+                <tr>
+                  <th class="text-warning">Venue</th>
+                  <td class="text-warning">{{ selectedTheatre.venue_name }}</td>
+                </tr>
+                <tr>
+                  <th class="text-warning">Location</th>
+                  <td class="text-warning">{{ selectedTheatre.location }}</td>
+                </tr>
+                <tr>
+                  <th class="text-warning">Seats Available</th>
+                  <td class="text-warning">
+                    {{ selectedSlot.seats_available }}
+                  </td>
+                </tr>
+                <tr>
+                  <th class="text-warning">Price</th>
+                  <td v-if="selectedMovie.rating < 6.0" class="text-warning">
+                    {{ selectedTheatre.price }}
+                    <i class="text-success">
+                      Offer: {{ selectedTheatre.price - 20 }}</i
+                    >
+                  </td>
+                  <td
+                    v-else-if="selectedMovie.rating > 9.0"
+                    class="text-warning"
                   >
-                </td>
-                <td v-else-if="selectedMovie.rating > 9.0" class="text-warning">
-                  {{ selectedTheatre.price + 20 }}
-                </td>
-                <td v-else class="text-warning">
-                  {{ selectedTheatre.price }}
-                </td>
-              </tr>
-              <tr>
-                <th class="text-warning">Total Seats</th>
-                <td v-if="selectedSlot.seats_available > 0">
-                  <input
-                    type="number"
-                    step="1"
-                    v-model="seatCount"
-                    min="1"
-                    :max="selectedSlot.seats_available"
-                    id="seat-count"
-                    class="text-center w-15 bg-dark border-warning rounded text-warning"
-                  />
-                </td>
-                <td v-else>
-                  <input
-                    placeholder="Seats filled"
-                    class="text-center bg-dark border-0 w-15"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                    {{ selectedTheatre.price + 20 }}
+                  </td>
+                  <td v-else class="text-warning">
+                    {{ selectedTheatre.price }}
+                  </td>
+                </tr>
+                <tr>
+                  <th class="text-warning">Total Seats</th>
+                  <td v-if="selectedSlot.seats_available > 0">
+                    <input
+                      type="number"
+                      step="1"
+                      v-model="seatCount"
+                      min="1"
+                      :max="selectedSlot.seats_available"
+                      id="seat-count"
+                      class="text-center w-15 bg-dark border-warning rounded text-warning"
+                    />
+                  </td>
+                  <td v-else>
+                    <input
+                      placeholder="Seats filled"
+                      class="text-center bg-dark border-0 w-15"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <!-- </div> -->
         <div class="row justify-content-center p-3">
           <div>
             <button

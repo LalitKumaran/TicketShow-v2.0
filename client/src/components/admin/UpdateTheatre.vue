@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar />
+    <bootstrap-toast ref="toast"></bootstrap-toast>
     <div class="form-container">
       <div class="form-subcontainer">
         <h3 class="text-warning">Update Theatre</h3>
@@ -9,7 +10,6 @@
             type="text"
             v-model="name"
             placeholder="Theatre Name"
-            name="theatrename"
             id="theatrename"
           />
 
@@ -17,14 +17,12 @@
             type="text"
             v-model="capacity"
             placeholder="Capacity"
-            name="capacity"
             id="capacity"
           />
           <input
             type="text"
             v-model="location"
             placeholder="Location"
-            name="location"
             id="location"
           />
 
@@ -33,7 +31,6 @@
             v-model="price"
             placeholder="Ticket Price"
             min="0"
-            name="price"
             id="price"
           />
 
@@ -43,12 +40,8 @@
             placeholder="Image"
             @change="getImage"
             accept="image/*"
-            name="image"
             id="image"
           />
-
-          <!-- <img :src="image" v-if="image" /> -->
-
           <button class="btn btn-outline-warning" type="submit">Update</button>
         </form>
       </div>
@@ -58,6 +51,7 @@
 <script>
 import Navbar from "../util/Navbar";
 import axios from "axios";
+import BootstrapToast from "../util/BootstrapToast";
 export default {
   name: "update-theatre",
   data() {
@@ -74,6 +68,7 @@ export default {
   },
   components: {
     Navbar,
+    BootstrapToast
   },
   methods: {
     updateTheatre() {

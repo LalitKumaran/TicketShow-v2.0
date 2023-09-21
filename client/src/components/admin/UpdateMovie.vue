@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar />
+    <bootstrap-toast ref="toast"></bootstrap-toast>
     <div class="form-container">
       <div class="form-subcontainer">
         <h3 class="text-warning">Update Movie</h3>
@@ -9,7 +10,6 @@
             v-model="movieName"
             type="text"
             placeholder="Movie name"
-            name="moviename"
             id="moviename"
             required
           />
@@ -18,31 +18,27 @@
             v-model="rating"
             type="text"
             placeholder="Rating"
-            name="rating"
             id="rating"
           />
 
           <input
-            v-model="tag"
+            v-model="genre"
             type="text"
-            placeholder="Tags"
-            name="tag"
-            id="tag"
+            placeholder="Genre"
+            id="genre"
           />
 
           <input
             v-model="cast"
             type="text"
             placeholder="Cast"
-            name="cast"
             id="cast"
           />
 
           <input
             v-model="language"
             type="text"
-            placeholder="language"
-            name="language"
+            placeholder="Language"
             id="language"
           />
 
@@ -50,7 +46,6 @@
             v-model="duration"
             type="text"
             placeholder="Duration"
-            name="duration"
             id="duration"
             disabled
           />
@@ -59,12 +54,9 @@
           <input
             type="file"
             @change="getPoster"
-            name="poster"
             id="poster"
             accept="image/*"
           />
-          <!-- <img v-if="poster" :src="poster" /> -->
-
           <button class="btn btn-outline-warning" type="submit">Update</button>
         </form>
       </div>
@@ -74,6 +66,7 @@
 <script>
 import Navbar from "../util/Navbar";
 import axios from "axios";
+import BootstrapToast from "../util/BootstrapToast";
 export default {
   name: "update-movie",
   data() {
@@ -82,7 +75,7 @@ export default {
       slots: [],
       movies: [],
       movieName: "",
-      tag: "",
+      genre: "",
       rating: "",
       lang: "",
       cast: "",
@@ -92,7 +85,7 @@ export default {
       movieId: "",
     };
   },
-  components: { Navbar },
+  components: { Navbar, BootstrapToast },
   methods: {
     getPoster(event) {
       const file = event.target.files[0];
@@ -114,7 +107,7 @@ export default {
           {
             movieId: this.movieId,
             movieName: this.movieName,
-            tag: this.tag,
+            genre: this.genre,
             rating: this.rating,
             lang: this.lang,
             cast: this.cast,

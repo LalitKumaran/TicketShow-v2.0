@@ -7,7 +7,7 @@
         class="form-control bg-dark text-light m-1 w-75 border border-warning"
         type="search"
         id="search"
-        v-model="search_value"
+        v-model="searchFilter"
         placeholder="&#128269;  Search by theatres, location"
         aria-label="Search"
       />
@@ -63,7 +63,7 @@
                   </router-link>
                   <router-link v-if="user.role == 'admin'" :to="''">
                     <button
-                      @click="exportVenue(theatre)"
+                      @click="exportStats(theatre)"
                       class="btn btn-outline-warning btn-dark-text"
                     >
                       &#8689; Export
@@ -88,7 +88,7 @@ export default {
     return {
       user: "",
       theatres: [],
-      search_value: "",
+      searchFilter: "",
       filteredTheatres: [],
     };
   },
@@ -97,7 +97,7 @@ export default {
     BootstrapToast,
   },
   watch: {
-    search_value(newVal) {
+    searchFilter(newVal) {
       if (newVal === "") {
         this.filteredTheatres = this.theatres;
       } else {
@@ -107,6 +107,72 @@ export default {
             t.location.toLowerCase().includes(newVal.toLowerCase())
         );
       }
+    },
+  },
+  methods: {
+    exportStats(theatre) {
+      this.user = JSON.parse(localStorage.getItem("user"));
+      const accessToken = this.user.token;
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+      axios
+        .post(
+          `http://127.0.0.1:5000/exportvenue`,
+          { user: this.user, venue: theatre },
+          { headers }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            localStorage.setItem("task_id", res.data.task_id);
+            this.checkStatus(res.data.task_id);
+            console.log(res.data.task_id);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          // if (err.response.status == 401) {
+          //   this.$refs.toast.showCustomToast(res.data.msg, "warning");
+          //   setTimeout(() => {
+          //     this.$router.push("/logout");
+          //   }, 3000);
+          // }
+        });
+    },
+    checkStatus(task_id) {
+      const interval = setInterval(() => {
+        this.user = JSON.parse(localStorage.getItem("user"));
+        const accessToken = this.user.token;
+        const headers = {
+          Authorization: `Bearer ${accessToken}`,
+        };
+        axios
+          .get(`http://127.0.0.1:5000/exportvenue/checkstatus/${task_id}`, {
+            headers,
+          })
+          .then((res) => {
+            if (res.status == 200) {
+              if (res.data.ready == "true") {
+                clearInterval(interval);
+                localStorage.removeItem("task_id");
+                if (res.data.success == "true") {
+                  this.$refs.toast.showCustomToast(res.data.msg, "success");
+                } else {
+                  this.$refs.toast.showCustomToast(res.data.msg, "danger");
+                }
+              }
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            // if (err.response.status == 401) {
+            //   this.$refs.toast.showCustomToast(res.data.msg, "danger");
+            //   setTimeout(() => {
+            //     this.$router.push("/logout");
+            //   }, 3000);
+            // }
+          });
+      }, 3000);
     },
   },
   mounted() {
@@ -149,7 +215,7 @@ export default {
   overflow: hidden;
 }
 
-.card-header{
+.card-header {
   border-top: 1px solid #ffc107;
   border-radius: 10px 10px 0 0;
 }
