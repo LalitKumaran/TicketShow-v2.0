@@ -14,18 +14,18 @@
       <div class="col">
         <div class="row">
           <select
-            v-model="time"
+            v-model="timeFilter"
             class="text-warning m-1 p-1 col bg-dark border-1 border-warning rounded"
           >
             <option :value="''" default>All shows</option>
-            <option :value="'morning'">Morning</option>
-            <option :value="'noon'">Noon</option>
-            <option :value="'matinee'">Matinee</option>
-            <option :value="'evening'">Evening</option>
-            <option :value="'night'">Night</option>
+            <option :value="'09:00'">Morning</option>
+            <option :value="'12:30'">Noon</option>
+            <option :value="'16:00'">Matinee</option>
+            <option :value="'19:30'">Evening</option>
+            <option :value="'23:00'">Night</option>
           </select>
           <input
-            v-model="date"
+            v-model="dateFilter"
             type="date"
             :min="minDate"
             placeholder="Today"
@@ -53,7 +53,9 @@
             />
           </div>
           <div>
-            <h5 class="card-title text-warning border-top border-warning rounded pt-3">
+            <h5
+              class="card-title text-warning border-top border-warning rounded pt-3"
+            >
               {{ movie.show_name }}
             </h5>
             <h6 class="card-title text-warning pb-3">
@@ -64,13 +66,24 @@
             <div class="d-flex m-2">
               <div v-for:="slot in filteredSlots" :key="slot.slot_id">
                 <router-link :to="'/selected-slot/' + slot.slot_id">
-                  <div v-if:="slot.show_id == movie.show_id">
-                    <button class="btn btn-outline-success p-2 m-2">
+                  <div
+                    v-if:="
+                      slot.show_id == movie.show_id &&
+                      slot.date == dateFilter &&
+                      (timeFilter == '' || slot.time == timeFilter) &&
+                      (slot.date > minDate ||
+                        (slot.date == minDate && slot.time >= minTime))
+                    "
+                  >
+                    <button
+                      v-if="slot.seats_available > 0"
+                      class="btn btn-outline-success p-2 m-2"
+                    >
                       {{ slot.time }}
                     </button>
-                    <!-- <button class="btn btn-outline-danger p-2 m-2">
-                    {{ slot.time }}
-                  </button> -->
+                    <button v-else class="btn btn-outline-danger p-2 m-2">
+                      {{ slot.time }}
+                    </button>
                   </div>
                 </router-link>
               </div>
@@ -91,11 +104,11 @@ const year = today.getFullYear();
 const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-based, so we add 1
 const day = String(today.getDate()).padStart(2, "0");
 
-// const hours = today.getHours().toString().padStart(2, "0");
-// const minutes = today.getMinutes().toString().padStart(2, "0");
+const hours = today.getHours().toString().padStart(2, "0");
+const minutes = today.getMinutes().toString().padStart(2, "0");
 // const seconds = today.getSeconds().toString().padStart(2, '0');
 
-// const currentTime = `${hours}:${minutes}`;
+const currentTime = `${hours}:${minutes}`;
 const currentDate = `${year}-${month}-${day}`;
 
 export default {
@@ -108,16 +121,14 @@ export default {
       theatres: [],
       slots: [],
       selectedTheatre: {},
-      date: currentDate,
-      time: "",
-      // st_time: "00:00",
-      // end_time: "23:59",
       minDate: currentDate,
-      // minTime: currentTime,
+      minTime: currentTime,
       filteredMovies: [],
       searchFilteredMovies: [],
       filteredSlots: [],
       searchFilter: "",
+      timeFilter: "",
+      dateFilter: currentDate,
     };
   },
   components: { Navbar, BootstrapToast },
