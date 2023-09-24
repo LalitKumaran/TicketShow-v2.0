@@ -93,6 +93,10 @@ export default {
               "danger"
             );
           }
+          else{
+            this.$refs.toast.showCustomToast("Server Error", "warning");
+            this.$router.push("/logout");
+          }
         });
     },
     getImage(event) {

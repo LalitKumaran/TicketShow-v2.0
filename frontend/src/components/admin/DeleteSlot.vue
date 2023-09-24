@@ -114,6 +114,10 @@ export default {
               "danger"
             );
           }
+          else{
+            this.$refs.toast.showCustomToast("Server Error", "warning");
+            this.$router.push("/logout");
+          }
         });
     },
   },
@@ -154,6 +158,8 @@ export default {
       })
       .catch((err) => {
         console.log(err);
+        this.$refs.toast.showCustomToast("Server Error", "warning");
+        this.$router.push("/logout");
       });
   },
 };

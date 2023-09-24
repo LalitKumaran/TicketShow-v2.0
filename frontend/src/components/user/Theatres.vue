@@ -164,6 +164,7 @@ export default {
           })
           .catch((err) => {
             console.log(err);
+            clearInterval(interval);
           });
       }, 3000);
     },
@@ -183,6 +184,8 @@ export default {
       })
       .catch((err) => {
         console.log(err);
+        this.$refs.toast.showCustomToast("Server Error", "warning");
+        this.$router.push("/logout");
       });
   },
 };
